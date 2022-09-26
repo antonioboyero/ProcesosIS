@@ -1,20 +1,19 @@
-describe("El juego...", function() {
+describe("Player", function() {
   var miJuego;
-  var usr1, usr2;
+  var usr1,usr2;
 
   beforeEach(function() {
     miJuego=new Juego();
-    miJuego.agregarUsuario("pepe");
-    miJuego.agregarUsuario("juan");
-    usr1=miJuego.usuarios["pepe"];
-    usr2=miJuego.usuarios["juan"];
+      miJuego.agregarUsuario("pepe");
+      miJuego.agregarUsuario("luis");
+      usr1=miJuego.usuarios["pepe"];
+      usr2=miJuego.usuarios["luis"];
   });
 
   it("inicialmente", function() {
     let lista=miJuego.obtenerPartidas();
-    expect(lista.lenght).toEqual(0);
+    expect(lista.length).toEqual(0);
     expect(usr1.nick).toEqual("pepe");
-    expect(usr2.nick).toEqual("juan");
-
+    expect(usr2.nick).toEqual("luis");
   });
 });
