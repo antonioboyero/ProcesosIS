@@ -1,0 +1,29 @@
+Planificación inicial de proyecto:
+1 )Puesta en marcha del proyecto y Arquitectura base
+- Implementar la Arquitectura base: servidor (modelo - REST) - cliente (cliente REST - interfaz GUI)
+- Desplegar prototipo inicial
+
+2) Implementar el juego
+- Mientras quede funcionalidad
+    - Elegir funcionalidad - diseñar - implementar - desplegar
+
+3) Capa acceso a datos
+- Agregar persistencia
+
+4)Agregar funcionalidad (...)
+
+----------------------------------------
+
+- Diseñar - implementar el modelo (toda la funcionalidad)
+- Integrar el modelo en la Arquitectura Saas: REST - cliente
+- persistencia
+- otros
+
+------------------------------------------
+
+- Interfaz GUI  -> servidor -> BBDD
+- BBDD --> Interfaz GUI / REST
+
+-----------------------------------------
+
+- Interfaz GUI y punto
