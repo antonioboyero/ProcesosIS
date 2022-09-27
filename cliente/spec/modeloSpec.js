@@ -27,4 +27,15 @@ describe("Player", function() {
   });
 
 
+  xit("el usuario luis se une a la partida", function() {
+
+  });
+
+  xit("obtener partida", function() {
+
+  });
+
+  
+
+
 });
