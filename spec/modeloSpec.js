@@ -16,4 +16,15 @@ describe("Player", function() {
     expect(usr1.nick).toEqual("pepe");
     expect(usr2.nick).toEqual("luis");
   });
+
+  it("crear partida", function() {
+    let codigo=usr1.crearPartida();
+    expect(miJuego.partidas[codigo]).toBeDefined();
+    let partida=miJuego.partidas[codigo];
+    expect(partida.owner.nick).toEqual(usr1.nick);
+    expect(partida.jugadores[0].nick).toEqual(usr1.nick);
+    expect(partida.codigo).toEqual(codigo);
+  });
+
+
 });

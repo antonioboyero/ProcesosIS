@@ -10,14 +10,14 @@ function Juego() {
 	this.eliminarUsuario = function (nick) {
 		delete this.usuarios[nick]
 	}
-	this.crearPartida = function (nick) {
+	this.crearPartida = function (usr) {
 		let codigo = Date.now();
-		this.partidas[codigo] = new Partida(codigo, nick);
+		this.partidas[codigo] = new Partida(codigo, usr);
 		return codigo;
 	}
-	this.unirseAPartida = function (codigo, nick) {
+	this.unirseAPartida = function (codigo, usr) {
 		if (this.partidas[codigo]) {
-			this.partidas[codigo].agregarJugador(nick);
+			this.partidas[codigo].agregarJugador(usr);
 		}
 		else {
 			console.log("La partida no existe");
@@ -39,21 +39,21 @@ function Usuario(nick, juego) {
 	this.nick = nick;
 	this.juego = juego;
 	this.crearPartida = function () {
-		return this.juego.crearPartida(this.nick)
+		return this.juego.crearPartida(this)	//usuario tiene que pasarse a si mismo por eso usamos this
 	}
 	this.unirseAPartida = function (codigo) {
-		this.juego.unirseAPartida(codigo, this.nick);
+		this.juego.unirseAPartida(codigo, this); //igual que arriba
 	}
 }
 
-function Partida(codigo, nick) {
+function Partida(codigo, usr) {
 	this.codigo = codigo;
-	this.owner = nick;
+	this.owner = usr;
 	this.jugadores = [];
 	this.fase = "inicial"; //new Inicial()
-	this.agregarJugador = function (nick) {
+	this.agregarJugador = function (usr) {
 		if (this.jugadores.length < 2) {
-			this.jugadores.push(nick);
+			this.jugadores.push(usr);
 		}
 		else {
 			console.log("La partida está completa")
@@ -61,3 +61,4 @@ function Partida(codigo, nick) {
 	}
 	this.agregarJugador(this.owner);
 }
+
