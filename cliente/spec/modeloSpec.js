@@ -29,10 +29,36 @@ describe("Player", function() {
 
   xit("el usuario luis se une a la partida", function() {
 
+    //de esta manera no se ejecuta la prueba es la manera de por asi decirlo comentarlo
+
   });
 
-  xit("obtener partida", function() {
 
+
+  it("agregar jugador", function() {
+    miJuego.unirseAPartida(codigo,usr2);
+    expect(partida.jugadores.length).toEqual(2);
+    expect(partida.jugadores[1].nick).toEqual(usr2.nick);
+  });
+
+  it("unirse a partida", function() {
+    miJuego.agregarUsuario("pepa");
+    usr3=miJuego.usuarios["pepa"];
+    expect(usr3.nick).toEqual("pepa");
+
+    let codigo2=usr3.crearPartida();
+    expect(miJuego.partidas[codigo2]).toBeDefined();
+    let partida2=miJuego.partidas[codigo2];
+    expect(partida2.owner.nick).toEqual(usr3.nick);
+    expect(partida2.jugadores[0].nick).toEqual(usr3.nick);
+    expect(partida2.codigo2).toEqual(codigo2);
+
+    let lista=miJuego.obtenerPartidas();
+    expect(lista.length).toEqual(2);
+
+    usr2.unirseAPartida(codigo2);
+    expect(partida2.jugadores.length).toEqual(2);
+    expect(partida2.jugadores[1].nick).toEqual(usr2.nick);
   });
 
   

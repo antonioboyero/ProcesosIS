@@ -33,6 +33,17 @@ function Juego() {
 	this.obtenerPartidasDisponibles = function () {
 		//devolver solo las partidas sin completarrrr
 	}
+
+	this.obtenerPartidasDisponibles = function () {
+		//devolver solo las partidas sin completar
+		let lista = [];
+		for (let key in this.partidas) {
+			if (this.partidas[key].jugadores.length < 2) {
+				lista.push({ "codigo": key, "owner": this.partidas[key].owner });
+			}
+		}
+		return lista;
+	}
 }
 
 function Usuario(nick, juego) {
