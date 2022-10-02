@@ -31,7 +31,7 @@ function Juego() {
 		return lista;
 	}
 	this.obtenerPartidasDisponibles = function () {
-		//devolver solo las partidas sin completar
+		//devolver solo las partidas sin completarrrr
 	}
 }
 
