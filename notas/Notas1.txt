@@ -2,3 +2,7 @@
 tiene-[un, muchos] (asociación, composición)
 es-un (herencia)
 
+
+creamos tres usuarios
+
+un usuario crea la partida y al crearla se une

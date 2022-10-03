@@ -49,6 +49,24 @@ app.get("/crearPartida/:nick",function(request,response){
   response.send(res);
 });
 
+app.get("/unirseAPartida/:nick/:codigo",function(request,response){
+  let nick = request.params.nick;
+  let codigo = request.params.codigo;
+  let res = juego.jugadorSeUneAPartida(nick,codigo);
+  response.send(res);
+});
+
+app.get("/obtenerPartidas",function(request,response){
+  let lista = juego.obtenerPartidas();
+  response.send(lista);
+});
+
+app.get("/obtenerPartidasDisponibles",function(request,response){
+  //error calcular bien
+  let lista = juego.obtenerPartidas();
+  response.send(lista);
+});
+
 
 
 
