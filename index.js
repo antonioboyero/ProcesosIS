@@ -1,8 +1,15 @@
 // [START gae_flex_quickstart]
 
+
 const fs = require("fs");
 const express = require('express');
 const app = express();
+const modelo = require("./servidor/modelo.js")
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+
+let juego = new modelo.Juego();
 
 //http get post put delete
 /*
@@ -14,15 +21,45 @@ delete "/eliminarPartida"
 ...
 */
 
-app.get('/', (req, res) => {
-  res
-    .status(200)
-    .send("Hola")
-    .end();
+app.use(express.static(__dirname + "/"));
+
+app.get("/", function(request,response){
+  var contenido=fs.readFileSync(__dirname+"/cliente/index.html");
+  response.setHeader("Content-type","text/html");
+  response.send(contenido);
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000;
+app.get("/agregarUsuario/:nick",function(request,response){
+  let nick = request.params.nick;
+  let res;
+  juego.agregarUsuario(nick);
+  response.send(res);
+});
+
+app.get("/crearPartida/:nick",function(request,response){
+  let nick = request.params.nick;
+  let res = juego.jugadorCreaPartida(nick);
+  // let usr = juego.usuarios[nick]; //juego.obtenerUsuario(nick)
+  // let res={codigo:-1};
+
+  // if(usr){
+  //   codigo=usr.crearPartida();
+  //   res={codigo:codigo};
+  // }
+  response.send(res);
+});
+
+
+
+
+// app.get('/', (req, res) => {
+//   res
+//     .status(200)
+//     .send("Hola")
+//     .end();
+// });
+
+
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
   console.log('Press Ctrl+C to quit.');

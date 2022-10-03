@@ -2,11 +2,16 @@ function Juego() {
 	this.partidas = {};
 	this.usuarios = {}; //array asociativo
 
-	this.agregarUsuario = function (nick) {
+    this.agregarUsuario = function (nick) {
+		let res={nick:-1};
 		if (!this.usuarios[nick]) {
-			this.usuarios[nick] = new Usuario(nick, this)
+			this.usuarios[nick] = new Usuario(nick, this);
+			res={nick:nick};
+            console.log("Nuevo USUARIO");
 		}
+		return res;
 	}
+
 	this.eliminarUsuario = function (nick) {
 		delete this.usuarios[nick]
 	}
@@ -15,6 +20,17 @@ function Juego() {
 		this.partidas[codigo] = new Partida(codigo, usr);
 		return codigo;
 	}
+
+    this.jugadorCreaPartida = function (nick) {
+        let usr = this.usuarios[nick]; //juego.obtenerUsuario(nick)
+        let res = { codigo: -1 };
+        if (usr) {
+            codigo = usr.crearPartida();
+            res = { codigo: codigo };
+        }
+        return res;
+    }
+
 	this.unirseAPartida = function (codigo, usr) {
 		if (this.partidas[codigo]) {
 			this.partidas[codigo].agregarJugador(usr);
@@ -74,4 +90,3 @@ function Partida(codigo, usr) {
 }
 
 module.exports.Juego = Juego;
-
