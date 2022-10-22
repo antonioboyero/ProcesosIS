@@ -1,4 +1,4 @@
-function clienteRest() {
+function ClienteRest() {
     this.nick;
     this.agregarUsuario = function (nick) {
         let cli = this;
@@ -6,20 +6,19 @@ function clienteRest() {
             //se ejecuta cuando conteste el servidor
             console.log(data);
             if (data.nick != -1) {
-                console.log("usuario"+data.nick+"registrado")
-                cli.nick=data.nick;
-                // ws.nick = data.nick;
+                console.log("Usuario " + data.nick + " registrado")
+                cli.nick = data.nick;
+                //ws.nick=data.nick;
                 //$.cookie("nick",ws.nick);
-                //iu.mostrarHome(data);
+                iu.mostrarHome();
             }
             else {
-                console.log("no se ha podido registrar el usuario")
+                console.log("No se ha podido registrar el usuario")
                 //iu.mostrarModal("El nick ya está en uso");
-                //iu.mostrarAgregarJugador();
+                iu.mostrarAgregarUsuario();
             }
         });
-        //todavia no estoy seguro de que haya contestado el servidor
-        //lo que pongas aqui se ejecuta a la vez que la llamada
+
     }
 
     this.crearPartida = function (nick) {
@@ -27,38 +26,35 @@ function clienteRest() {
         $.getJSON("/crearPartida/" + nick, function (data) {
             //se ejecuta cuando conteste el servidor
             console.log(data);
-            let codigo=Date.now;
-            if (data.nick != -1) {
-                console.log("usuario"+cli.nick+"ha creado una partida con el código: "+codigo);
-                return codigo;
-                // ws.nick = data.nick;
+            if (data.codigo != -1) {
+                console.log("Usuario " + cli.nick + " crea partida codigo: " + data.codigo)
+                //ws.nick=data.nick;
                 //$.cookie("nick",ws.nick);
                 //iu.mostrarHome(data);
             }
             else {
-                console.log("no se ha podido crear la partida")
+                console.log("No se ha podido crear partida")
                 //iu.mostrarModal("El nick ya está en uso");
                 //iu.mostrarAgregarJugador();
             }
         });
+
     }
 
 
     this.unirseAPartida = function (nick, codigo) {
         let cli = this;
-        $.getJSON("/unirseAPartida/" + nick +"/" + codigo, function (data) {
+        $.getJSON("/unirseAPartida/" + nick + "/" + codigo, function (data) {
             //se ejecuta cuando conteste el servidor
-            console.log(data);
-            let codigo=Date.now;
-            if (data.nick != -1) {
-                console.log("usuario"+cli.nick+"se ha unido a la partida que tiene el código: "+codigo);
-                return codigo;
-                // ws.nick = data.nick;
+            //console.log(data);
+            if (data.codigo != -1) {
+                console.log("Usuario " + cli.nick + " se une a partida codigo: " + data.codigo)
+                //ws.nick=data.nick;
                 //$.cookie("nick",ws.nick);
                 //iu.mostrarHome(data);
             }
             else {
-                console.log("no se ha podido unir a la partida")
+                console.log("No se ha podido unir a partida")
                 //iu.mostrarModal("El nick ya está en uso");
                 //iu.mostrarAgregarJugador();
             }
@@ -66,3 +62,5 @@ function clienteRest() {
     }
 
 }
+
+
