@@ -6,3 +6,11 @@ es-un (herencia)
 creamos tres usuarios
 
 un usuario crea la partida y al crearla se une
+
+
+--------------------------------------
+7 de Noviembre
+
+Crear un nuevo proyecto de github y copiar la lógica del juego (cogemos el spec de jasmine)
+
+Copiar la estructura del proecto de pruebas para empezar a crearlo
