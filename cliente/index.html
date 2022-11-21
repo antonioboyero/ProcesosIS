@@ -19,6 +19,8 @@
 	<script src="./cliente/clienteRest.js"></script>
 	<script src="./cliente/controlWeb.js"></script>
 	<script src="./cliente/clienteWS.js"></script>
+	<script src="./cliente/tablero.js"></script>
+	<link href="./cliente/css/styles.css"  rel="stylesheet" media="all"/>
 </head>
 
 <body>
@@ -36,7 +38,30 @@
 				<div id="listaPartidas"></div>
 			</div>
 		</div>
-	</div>
+
+		<div class="row">
+			<div class="col-4">
+                <h2>Barcos</h2>
+			<ul class="fleet-roster">
+				<li id="patrolboat">Patrol Boat</li>
+				<li id="submarine">Submarine</li>
+				<li id="destroyer">Destroyer</li>
+				<li id="battleship">Battleship</li>
+				<li id="carrier">Aircraft Carrier</li>
+			</ul>
+			</div>
+			<div class="col-8">
+				<div class="grid-container">
+					<h2>Tu flota</h2>
+					<div class="grid human-player"></div>
+				</div>
+				<div class="grid-container">
+					<h2>Flota enemiga</h2>
+					<div class="grid computer-player"></div>
+				</div>
+			</div>
+		</div>
+		
 	<div class="modal" id="miModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -59,7 +84,7 @@
 		cws = new ClienteWS();
 		//iu.mostrarAgregarUsuario();
 		iu.comprobarCookie();
+		tablero=new Tablero();
 	</script>
 </body>
-
 </html>

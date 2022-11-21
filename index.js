@@ -10,7 +10,7 @@ const io = new Server(server);
 const modelo = require("./servidor/modelo.js");
 const sWS = require("./servidor/servidorWS.js");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 let juego = new modelo.Juego();
 let servidorWS=new sWS.ServidorWS();
