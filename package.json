@@ -1,12 +1,13 @@
 {
   "name": "procesosis",
   "version": "1.0.0",
-  "description": "",
+  "description": "Juego de la batalla naval para Procesos de Ingeniería del Software",
   "main": "index.js",
   "dependencies": {
     "express": "^4.18.1",
     "jasmine-node": "3.0.0",
-    "socket.io": "^4.5.3"
+    "socket.io": "^4.5.3",
+    "mongodb":"^3.6.3"
   },
   "scripts": {
     "start": "node index.js",

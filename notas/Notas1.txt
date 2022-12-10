@@ -23,3 +23,10 @@ Copiar la estructura del proecto de pruebas para empezar a crearlo
 https://github.com/billmei/battleboat
 
 Ejemplo de un juego https://github.com/josejosedu/barcos
+
+añadir los console log en modelo.js por ejemplo en coloca barco
+
+
+-----------------------------
+
+https://github.com/Sergiogr11/procesos/blob/main/cliente/tablero.js
