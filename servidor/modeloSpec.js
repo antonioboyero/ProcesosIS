@@ -1,18 +1,12 @@
 Modelo = require("../servidor/modelo.js");
 Juego = Modelo.Juego;
 
-
-
-
 describe("El juego", function () {
   var juego;
   var usr1, usr2, usr3;
   const nick1 = "pepe";
   const nick2 = "luis";
   const nick3 = "pepa";
-
-
-
 
   beforeEach(function () {
     juego = new Juego();
@@ -21,20 +15,12 @@ describe("El juego", function () {
     usr3 = juego.agregarUsuario(nick3);
   });
 
-
-
-
   describe("inicialmente", function () {
     it("No hay partidas", function () {
       console.log(juego);
       expect(juego.obtenerPartidas().length).toEqual(0);
     });
   });
-
-
-
-
-
 
   it("Crear juego y se une uno, el juego tiene 2 jugadores y cambia a fase desplegando", function () {
     const partidaId = usr1.crearPartida();
@@ -49,11 +35,6 @@ describe("El juego", function () {
     ]);
     expect(partida.esDesplegando()).toEqual(true);
   });
-
-
-
-
-
 
   it("Crear juego y se unen otros dos, devuelve false al unirse el último y no se une", function () {
     const partidaId = usr1.crearPartida();
@@ -72,19 +53,11 @@ describe("El juego", function () {
     ]);
   });
 
-
-
-
-
   it("Usuario intenta unirse a una partida no existente, devuelve false", function () {
     const idPartidaInexistente = 1;
     const resultadoUnirseUsr1 = usr1.unirseAPartida(idPartidaInexistente);
     expect(resultadoUnirseUsr1).toEqual(false);
   });
-
-
-
-
 
   it("Partida deja de estar disponible al llenarse", function () {
     const partidaId = usr1.crearPartida();
@@ -96,10 +69,6 @@ describe("El juego", function () {
 
     expect(partida.estaDisponible()).toEqual(false);
   });
-
-
-
-
 
   it("Tras crear la partida hay 2 tableros con solo agua", () => {
     const partidaId = usr1.crearPartida();
@@ -113,10 +82,6 @@ describe("El juego", function () {
       comprobarTableroAgua(tablero);
     }
   });
-
-
-
-
 
   it("Jugador 1 intenta añadir barco antes de entrar a la fase de despliegue, no se actualiza el tablero", () => {
     const partidaId = usr1.crearPartida();
@@ -132,10 +97,6 @@ describe("El juego", function () {
     expect(tablero1.celdas[4][4].estado()).toEqual("agua");
   });
 
-
-
-
-
   it("Tras crear la partida con 2 jugadores, colocar un barco que no existe, no añade el barco", () => {
     const partidaId = usr1.crearPartida();
     usr2.unirseAPartida(partidaId);
@@ -149,10 +110,6 @@ describe("El juego", function () {
     expect(seHaColocado).toEqual(false);
     comprobarTableroAgua(jugador1.tablero);
   });
-
-
-
-
 
   it("Tras crear la partida con 2 jugadores, el primero coloca un barco con una orientación inválida", () => {
     const partidaId = usr1.crearPartida();
@@ -168,10 +125,6 @@ describe("El juego", function () {
     comprobarTableroAgua(jugador1.tablero);
   });
 
-
-
-
-
   it("Tras crear la partida con 2 jugadores, el primero coloca un barco fuera de los límites del tablero", () => {
     const partidaId = usr1.crearPartida();
     usr2.unirseAPartida(partidaId);
@@ -185,10 +138,6 @@ describe("El juego", function () {
     expect(seHaColocado).toEqual(false);
     comprobarTableroAgua(jugador1.tablero);
   });
-
-
-
-
 
   it("Tras crear la partida con 2 jugadores, el primer jugador coloca el primer barco dos veces, la posición del barco cambia", () => {
     const partidaId = usr1.crearPartida();
@@ -210,9 +159,6 @@ describe("El juego", function () {
     expect(tablero1.celdas[4][4].estado()).toEqual("agua");
     expect(tablero1.celdas[3][3].estado()).toEqual("intacto");
   });
-
-
-
 
   it("Tras que se unan los dos jugadores, ambos ponen sus barcos en sus tableros, el jugador 1 coloca un barco en vertical y se debe pasar a la fase jugando una vez acabe", () => {
     const partidaId = usr1.crearPartida();
@@ -258,9 +204,6 @@ describe("El juego", function () {
 
     expect(partida.esJugando()).toEqual(true);
   });
-
-
-
   describe("tras crear partida", () => {
     let partida;
     let jugador1, jugador2;
@@ -287,10 +230,6 @@ describe("El juego", function () {
       jugador2.barcosDesplegados();
     });
 
-
-
-
-
     it("Jugador sin turno dispara no cambia nada", () => {
       let disparo = jugador2.disparar(3, 3);
       expect(disparo.haDisparado).toEqual(false);
@@ -298,10 +237,6 @@ describe("El juego", function () {
       expect(disparo.turno).toEqual(nick1);
       expect(partida.turno).toEqual(0);
     });
-
-
-
-
 
     it("Jugador con turno dispara al agua", () => {
       let disparo = jugador1.disparar(0, 0);
@@ -312,10 +247,6 @@ describe("El juego", function () {
       expect(tablero2.celdas[0][0].estado()).toEqual("agua");
     });
 
-
-
-
-
     it("Jugador con turno dispara a un barco de una celda y lo hunde", () => {
       let disparo = jugador1.disparar(1, 1);
       expect(disparo.haDisparado).toEqual(true);
@@ -324,10 +255,6 @@ describe("El juego", function () {
       expect(partida.turno).toEqual(1);
       expect(tablero2.celdas[1][1].estado()).toEqual("hundido");
     });
-
-
-
-
 
     it("Jugador no puede golpear dos veces una celda de barco", () => {
       jugador1.disparar(1, 1);
@@ -339,10 +266,6 @@ describe("El juego", function () {
       expect(partida.turno).toEqual(0);
       expect(tablero2.celdas[1][1].estado()).toEqual("hundido");
     });
-
-
-
-
 
     it("Jugador con turno dispara a un barco de dos celdas y lo hunde", () => {
       let disparo = jugador1.disparar(2, 3);
@@ -363,11 +286,6 @@ describe("El juego", function () {
       expect(tablero2.celdas[3][3].estado()).toEqual("hundido");
     });
 
-
-
-
-    
-
     it("Jugador con turno 1 hunde todos los barcos y gana", () => {
       jugador1.disparar(2, 3);
       jugador2.disparar(0, 0);
@@ -384,9 +302,6 @@ describe("El juego", function () {
     });
   });
 });
-
-
-
 
 function comprobarTableroAgua(tablero) {
   for (let i = 0; i < tablero.length; i++) {

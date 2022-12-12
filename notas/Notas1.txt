@@ -30,3 +30,12 @@ añadir los console log en modelo.js por ejemplo en coloca barco
 -----------------------------
 
 https://github.com/Sergiogr11/procesos/blob/main/cliente/tablero.js
+
+cambios en el index, cambios en css. 
+
+
+-----------------------------------------------------------------
+
+Posibles cambios:
+
+controlar un 404 un error para mostrarlo de manera "bonita"

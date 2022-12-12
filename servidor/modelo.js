@@ -472,4 +472,6 @@ function Inicial() {
 	this.nombre = "inicial"
 }
 
+
+
 module.exports.Juego = Juego;
