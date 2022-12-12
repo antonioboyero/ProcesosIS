@@ -1,6 +1,7 @@
 let cad= require('./cad.js');
 
 function Juego(test) {
+
 	this.partidas = {};
 	this.usuarios = {};
 	this.cad= new cad.Cad();
@@ -18,9 +19,13 @@ function Juego(test) {
 		}
 		return res;
 	}
+
+
 	this.eliminarUsuario = function (nick) {
 		delete this.usuarios[nick];
 	}
+
+
 	this.usuarioSale = function (nick) {
 		if (this.usuarios[nick]) {
 			codigo=this.finalizarPartida(nick);
@@ -33,6 +38,8 @@ function Juego(test) {
 			}
 		}
 	}
+
+
 	this.jugadorCreaPartida = function (nick) {
 		let usr = this.usuarios[nick];
 		let res = { codigo: -1 };
@@ -42,6 +49,8 @@ function Juego(test) {
 		}
 		return res;
 	}
+
+
 	this.jugadorSeUneAPartida = function (nick, codigo) {
 		let usr = this.usuarios[nick];
 		let res = { "codigo": -1 };
@@ -51,9 +60,13 @@ function Juego(test) {
 		}
 		return res;
 	}
+
+
 	this.obtenerUsuario = function (nick) {
 		return this.usuarios[nick];
 	}
+
+
 	this.crearPartida = function (usr) {
 		let codigo = Date.now();
 		console.log("Usuario " + usr.nick + " crea partida " + codigo);
@@ -63,6 +76,8 @@ function Juego(test) {
 		this.partidas[codigo] = new Partida(codigo, usr);
 		return codigo;
 	}
+
+
 	this.unirseAPartida = function (codigo, usr) {
 		let res = -1;
 		if (this.partidas[codigo]) {
@@ -77,6 +92,8 @@ function Juego(test) {
 		}
 		return res;
 	}
+
+
 	this.obtenerPartidas = function () {
 		let lista = [];
 		for (let key in this.partidas) {
@@ -84,6 +101,8 @@ function Juego(test) {
 		}
 		return lista;
 	}
+
+
 	this.obtenerPartidasDisponibles = function () {
 		let lista = [];
 		for (let key in this.partidas) {
@@ -93,6 +112,8 @@ function Juego(test) {
 		}
 		return lista;
 	}
+
+	
 	this.finalizarPartida = function (nick) {
 		console.log("Entro a finalizar la partida")
 		for (let key in this.partidas) {
@@ -103,13 +124,17 @@ function Juego(test) {
 			}
 		}
 	}
+
+
 	this.obtenerPartida = function (codigo) {
 		return this.partidas[codigo];
 	}
 
+
 	this.obtenerLogs = function(callback){
 		this.cad.obtenerLogs(callback);
 	}
+
 
 	this.insertarLog=function(log,callback){
 		if(this.test == 'false'){
@@ -117,7 +142,7 @@ function Juego(test) {
 		}
 	}
 
-	
+
 	if(test == 'false'){
 		this.cad.conectar(function(db){
 			console.log("Conectandose a Atlas")
@@ -125,28 +150,40 @@ function Juego(test) {
 	}
 }
 
+
 function Usuario(nick, juego) {
+
 	this.nick = nick;
 	this.juego = juego;
 	this.tableroPropio;
 	this.tableroRival;
 	this.partida;
 	this.flota = {}; 
+
+
 	this.crearPartida = function () {
 		return this.juego.crearPartida(this)
 	}
+
+
 	this.unirseAPartida = function (codigo) {
 		return this.juego.unirseAPartida(codigo, this);
 	}
+
+
 	this.inicializarTableros = function (dim) {
 		this.tableroPropio = new Tablero(dim);
 		this.tableroRival = new Tablero(dim);
 	}
+
+
 	this.inicializarFlota = function () {
 		this.flota["Barco Pequeño (1)"] = new Barco("Barco Pequeño (1)", 1);
 		this.flota["Carguero grande (3)"] = new Barco("Carguero grande (3)", 3);
 
 	}
+
+
 	this.colocarBarco = function (nombre, x, y) {
 		if (this.partida.fase == "desplegando") {
 			let barco = this.flota[nombre];
@@ -156,9 +193,11 @@ function Usuario(nick, juego) {
 		}
 	}
 
+
 	this.comprobarLimites = function (tam, x) {
 		return this.tableroPropio.comprobarLimites(tam, x)
 	}
+
 
 	this.todosDesplegados = function () {
 		for (var key in this.flota) {
@@ -168,24 +207,36 @@ function Usuario(nick, juego) {
 		}
 		return true;
 	}
+
+
 	this.barcosDesplegados = function () {
 		this.partida.barcosDesplegados();
 	}
+
+
 	this.disparar = function (x, y) {
 		return this.partida.disparar(this.nick, x, y);
 	}
+
+
 	this.meDisparan = function (x, y) {
 		return this.tableroPropio.meDisparan(x, y);
 	}
+
+
 	this.obtenerEstado = function (x, y) {
 		return this.tableroPropio.obtenerEstado(x, y);
 	}
+
+
 	this.marcarEstado = function (estado, x, y) {
 		this.tableroRival.marcarEstado(estado, x, y);
 		if (estado == "agua") {
 			this.partida.cambiarTurno(this.nick);
 		}
 	}
+
+
 	this.flotaHundida = function () {
 		for (var key in this.flota) {
 			if (this.flota[key].estado != "hundido") {
@@ -194,6 +245,7 @@ function Usuario(nick, juego) {
 		}
 		return true;
 	}
+
 
 	this.obtenerFlota = function () {
 		return this.flota;
@@ -212,31 +264,31 @@ function Usuario(nick, juego) {
         }
         return undefined
     }
+
+
 	this.logAbandonarPartida = function(jugador,codigo){
 		this.juego.insertarLog({"operacion":"abandonarPartida","usuario":jugador.nick,"codigo":codigo,"fecha":Date()},function(){
 			console.log("Registro de log(abandonar) insertado");
 		});
-		
-
-
 	}
+
+
 	this.logFinalizarPartida = function(perdedor,ganador,codigo){
 		this.juego.insertarLog({"operacion":"finalizarPartida","perdedor":perdedor,"ganador":ganador,"codigo":codigo,"fecha":Date()},function(){
 			console.log("Registro de log(finalizarPartida) insertado");
 		});
-		
-
 	}
+}//FINAL FUNCTION USUARIO
 
-
-}
 
 function Partida(codigo, usr) {
+
 	this.codigo = codigo;
 	this.owner = usr;
 	this.jugadores = [];
 	this.fase = "inicial";
 	this.maxJugadores = 2;
+
 	this.agregarJugador = function (usr) {
 		let res = this.codigo;
 		if (this.hayHueco()) {
@@ -253,14 +305,20 @@ function Partida(codigo, usr) {
 		}
 		return res;
 	}
+
+
 	this.comprobarFase = function () {
 		if (!this.hayHueco()) {
 			this.fase = "desplegando";
 		}
 	}
+
+
 	this.hayHueco = function () {
 		return (this.jugadores.length < this.maxJugadores)
 	}
+
+	
 	this.estoy = function (nick) {
 		for (i = 0; i < this.jugadores.length; i++) {
 			if (this.jugadores[i].nick == nick) {
@@ -269,15 +327,23 @@ function Partida(codigo, usr) {
 		}
 		return false;
 	}
+
+
 	this.esJugando = function () {
 		return this.fase == "jugando";
 	}
+
+
 	this.esDesplegando = function () {
 		return this.fase == "desplegando";
 	}
+
+
 	this.esFinal = function () {
 		return this.fase == "final";
 	}
+
+
 	this.flotasDesplegadas = function () {
 		for (i = 0; i < this.jugadores.length; i++) {
 			if (!this.jugadores[i].todosDesplegados()) {
@@ -286,22 +352,30 @@ function Partida(codigo, usr) {
 		}
 		return true;
 	}
+
+
 	this.barcosDesplegados = function () {
 		if (this.flotasDesplegadas()) {
 			this.fase = "jugando";
 			this.asignarTurnoInicial();
 		}
 	}
+
+
 	this.asignarTurnoInicial = function () {
 		this.turno = this.jugadores[0];
 	}
+
+
 	this.cambiarTurno = function (nick) {
 		this.turno = this.obtenerRival(nick);
 	}
 
+
 	this.obtenerTurno = function () {
 		return this.turno
 	}
+
 	this.obtenerRival = function (nick) {
 		let rival;
 		for (i = 0; i < this.jugadores.length; i++) {
@@ -311,6 +385,8 @@ function Partida(codigo, usr) {
 		}
 		return rival;
 	}
+
+
 	this.obtenerJugador = function (nick) {
 		let jugador;
 		for (i = 0; i < this.jugadores.length; i++) {
@@ -320,6 +396,8 @@ function Partida(codigo, usr) {
 		}
 		return jugador;
 	}
+
+
 	this.disparar = function (nick, x, y) {
 		let atacante = this.obtenerJugador(nick);
 		if (this.turno.nick == atacante.nick) {
@@ -336,6 +414,8 @@ function Partida(codigo, usr) {
 			console.log("No es tu turno")
 		}
 	}
+
+
 	this.comprobarFin = function (jugador) {
 		if (jugador.flotaHundida()) {
 			this.fase = "final";
@@ -344,6 +424,8 @@ function Partida(codigo, usr) {
 			jugador.logFinalizarPartida(jugador.nick,this.turno.nick,this.codigo);
 		}
 	}
+
+
 	this.abandonarPartida = function (jugador) {
 		if (jugador) {
 
@@ -355,17 +437,20 @@ function Partida(codigo, usr) {
 			console.log("Ganador: " + rival.nick);
 			}
 			jugador.logAbandonarPartida(jugador,this.codigo);
-
-
 		}
 	}
 
+
+
 	this.agregarJugador(this.owner);
-}
+}//FINAL FUNCTION PARTIDA
+
 
 function Tablero(size) {
+
 	this.size = size; 
 	this.casillas;
+
 	this.crearTablero = function (tam) {
 		this.casillas = new Array(tam);
 		for (x = 0; x < tam; x++) {
@@ -375,6 +460,7 @@ function Tablero(size) {
 			}
 		}
 	}
+
 
 	this.colocarBarco = function (barco, x, y) {
 		if (this.comprobarLimites(barco.tam, x)) {
@@ -388,12 +474,14 @@ function Tablero(size) {
 		}
 	}
 
+
 	this.comprobarLimites = function (tam, x) {
 		if (x + tam > this.size) {
 			console.log('excede los limites')
 			return false
 		} else { return true }
 	}
+
 
 	this.casillasLibres = function (x, y, tam) {
 		for (i = x; i < tam; i++) {
@@ -404,26 +492,38 @@ function Tablero(size) {
 		}
 		return true;
 	}
+
+
 	this.meDisparan = function (x, y) {
 		return this.casillas[x][y].contiene.meDisparan(this, x, y);
 	}
+
+
 	this.obtenerEstado = function (x, y) {
 		return this.casillas[x][y].contiene.obtenerEstado();
 	}
+
+
 	this.marcarEstado = function (estado, x, y) {
 		this.casillas[x][y].contiene = estado;
 	}
+
+
 	this.ponerAgua = function (x, y) {
 		return this.casillas[x][y].contiene = new Agua();
 	}
+
+
 	this.crearTablero(size);
-}
+}//FINAL FUNCTION TABLERO
+
 
 function Casilla(x, y) {
 	this.x = x;
 	this.y = y;
 	this.contiene = new Agua();
 }
+
 
 function Barco(nombre, tam) { 
 	this.nombre = nombre;
@@ -453,6 +553,7 @@ function Barco(nombre, tam) {
 	}
 }
 
+
 function Agua() {
 	this.nombre = "agua";
 	this.esAgua = function () {
@@ -467,11 +568,8 @@ function Agua() {
 }
 
 
-
 function Inicial() {  
 	this.nombre = "inicial"
 }
-
-
 
 module.exports.Juego = Juego;

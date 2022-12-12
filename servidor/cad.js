@@ -1,32 +1,39 @@
 var mongo = require("mongodb").MongoClient;
 var ObjectID = require("mongodb").ObjectID;
 
+
 function Cad() {
 
     this.logs = undefined;
 
+    //logs
     this.insertarLog = function (log, callback) {
         insertar(this.logs, log, callback);
     }
 
-
+    //partidas
+    //usuarios
     this.insertarPartida = function (partida, callback) {
         insertar(this.partidas, partida, callback)
     }
+
 
     this.insertarUsuario = function (usuario, callback) {
         insertar(this.usuarios, usuario, callback)
     }
 
+
     this.obtenerLogs = function (callback) {
         obtenerTodos(this.logs, callback)
     }
+
 
     this.obtenerTodos = function(coleccion, callback){
         coleccion.find().toArray(function(error, col){
             callback(col);
         })
     }
+
 
     function insertar(coleccion, elemento, callback) {
         coleccion.insertOne(elemento, function (err, result) {
@@ -44,7 +51,6 @@ function Cad() {
     this.conectar = function () {
         let cad = this;
         mongo.connect("mongodb+srv://batalla:clavebatalla@cluster0.9e2xf74.mongodb.net/?retryWrites=true&w=majority", { useUnifiedTopology: true }, function (err, database) {
-
             if (!err) {
                 //Poner mi nombre en vez de batalla
                 console.log("Conectado a MongoDB Atlas")
@@ -55,14 +61,14 @@ function Cad() {
                     console.log("Tenemos la coleccion de logs")
                     cad.log = col;
                 }
-
             } else {
                 console.log("No se puede conectar con MongoDB Atlas")
             }
         });
     }
-
 };
 
-
+//IMPORTANTE LO DE EXPORTAR, ACORDARSE!!!!
 module.exports.Cad = Cad;
+
+//Iniciar sesion, crear partida, unir a partida, abandonar partida, partida finalizada, usuario sale

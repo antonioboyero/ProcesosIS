@@ -9,15 +9,11 @@ const io = new Server(server);
 
 const modelo = require("./servidor/modelo.js");
 const sWS = require("./servidor/servidorWS.js");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 var args = process.argv.slice(2);
-
-//passport
-const passport = require('passport');
 
 let juego = new modelo.Juego(args[0]);
 let servidorWS = new sWS.ServidorWS();
-
 
 app.use(express.static(__dirname + "/"));
 
@@ -27,10 +23,6 @@ app.get("/", function (request, response) {
   response.setHeader("Content-type", "text/html");
   response.send(contenido);
 });
-
-app.get("/auth/google", passport.authenticate('google', { scope: ['profile', 'email'] }));
-//auth/github etc
-//asi se podría ir haciendo
 
 
 app.get("/agregarUsuario/:nick", function (request, response) {
@@ -55,7 +47,6 @@ app.get("/comprobarUsuario/:nick", function (request, response) {
 app.get("/crearPartida/:nick", function (request, response) {
   let nick = request.params.nick;
   let res = juego.jugadorCreaPartida(nick);
-
   response.send(res);
 });
 
@@ -92,6 +83,7 @@ app.get("/obtenerLogs", function (request, response) {
     response.send(logs);
   })
 });
+
 
 
 server.listen(PORT, () => {

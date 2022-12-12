@@ -1,11 +1,10 @@
 function Tablero(size) {
 
-
 	//añadir el update cell linea 673 battleboat
 	this.placingOnGrid = false;
 	this.nombreBarco;
-	this.size = size;
 	this.flota;
+	this.size = size;
 
 
 	this.ini = function () {
@@ -22,6 +21,38 @@ function Tablero(size) {
 			computerCells[j].addEventListener('click', this.shootListener, false);
 		}
 	}
+
+
+
+	this.asignarFlotaListener = function () {
+		var playerRoster = document.querySelector('.fleet-roster').querySelectorAll('li');
+		for (var i = 0; i < playerRoster.length; i++) {
+			playerRoster[i].self = this;
+			playerRoster[i].addEventListener('click', this.rosterListener, false);
+		}
+	}
+
+
+
+	this.placementListener = function (e) {
+		self = e.target.self;
+		if (self.placingOnGrid) {
+			// Extract coordinates from event listener
+			var x = parseInt(e.target.getAttribute('data-x'), 10);
+			var y = parseInt(e.target.getAttribute('data-y'), 10);
+
+			self.colocarBarco(x, y, self.nombreBarco);
+		
+		}
+	};
+
+
+
+	this.endPlacing = function (shipType) {
+		document.getElementById(shipType).setAttribute('class', 'placed');
+		self.placingOnGrid = false;
+	}
+
 
 
 	this.rosterListener = function (e) {
@@ -43,25 +74,6 @@ function Tablero(size) {
 	};
 
 
-	this.placementListener = function (e) {
-		self = e.target.self;
-		if (self.placingOnGrid) {
-			// Extract coordinates from event listener
-			var x = parseInt(e.target.getAttribute('data-x'), 10);
-			var y = parseInt(e.target.getAttribute('data-y'), 10);
-			self.colocarBarco(x, y, self.nombreBarco);
-		
-		}
-	};
-
-
-
-	this.endPlacing = function (shipType) {
-		document.getElementById(shipType).setAttribute('class', 'placed');
-		self.placingOnGrid = false;
-	}
-
-
 
 	this.colocarBarco = function (x, y, nombre) {
 		//comprobar límites
@@ -69,6 +81,7 @@ function Tablero(size) {
 		cws.colocarBarco(nombre, x, y);
 		//return true;
 	}
+
 
 
 	this.puedesColocarBarco = function (barco, x, y) {
@@ -80,6 +93,16 @@ function Tablero(size) {
 	}
 
 
+
+	this.shootListener = function (e) {
+		var x = parseInt(e.target.getAttribute('data-x'), 10);
+		var y = parseInt(e.target.getAttribute('data-y'), 10);
+		console.log("disparo x: " + x + " y: " + y);
+		cws.disparar(x, y);
+	}
+
+
+
 	this.updateCell = function (x, y, type, target) {
 		var player = target;//'human-player';
 
@@ -88,8 +111,9 @@ function Tablero(size) {
 	};
 
 
+
 	this.mostrarTablero = function (si) {
-        console.log("Entro a mostrar tablero")
+		console.log("Entro a mostrar tablero")
 		let x = document.getElementById("tablero");
 		if (si) {
 			x.style.display = "block";
@@ -98,26 +122,7 @@ function Tablero(size) {
 			x.style.display = "none";
 		}
 	}
-	//manejadores (click en tablero propi,click tablero rival)
-    //updateCell (actualiza las celdas)
 
-
-	this.asignarFlotaListener = function () {
-		var playerRoster = document.querySelector('.fleet-roster').querySelectorAll('li');
-		for (var i = 0; i < playerRoster.length; i++) {
-			playerRoster[i].self = this;
-			playerRoster[i].addEventListener('click', this.rosterListener, false);
-		}
-	}
-
-	
-
-	this.shootListener = function (e) {
-		var x = parseInt(e.target.getAttribute('data-x'), 10);
-		var y = parseInt(e.target.getAttribute('data-y'), 10);
-		console.log("disparo x: " + x + " y: " + y);
-		cws.disparar(x, y);
-	}
 
 
 	this.crearGrid = function () {
@@ -143,6 +148,9 @@ function Tablero(size) {
 		}
 		this.ini();
 	};
+
+
+
 	this.elementosGrid = function () {
         console.log("Entro en elementos grid")
 		$('#gc').remove();
@@ -160,6 +168,8 @@ function Tablero(size) {
 		// })
 	}
 
+
+
 	this.mostrarFlota = function () {
 		$("#listaF").remove();
 		let cadena = '<ul class="fleet-roster" id="listaF">';
@@ -174,4 +184,5 @@ function Tablero(size) {
 		this.asignarFlotaListener();
 	}
 
-}
+	
+}//fin TABLERO

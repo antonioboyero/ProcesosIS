@@ -10,21 +10,21 @@ function ControlWeb() {
         } else {
             this.mostrarAgregarUsuario();
         }
+
     }
 
 
 
     this.mostrarAgregarUsuario = function () {
-        var cadena = '<div class="row" id="mAU">';
+        
+        var cadena = '<div class="row" id="mAU">';//'<form class="form-row needs-validation"  id="mAU">';
         cadena = cadena + '<div class="col"><h2>Juego Batalla naval</h2></div>';
         cadena = cadena + '<div class="row">';
         cadena = cadena + '<div class="col">'
-        cadena = cadena + '<input type="text" class="form-control mb-2 mr-sm-2" id="usr" placeholder="Introduce tu nombre (max 6 letras)" required></div>';
+        cadena = cadena + '<input type="text" class="form-control mb-2 mr-sm-2" id="usr" placeholder="Introduce tu nickname (max 6 letras)" required></div>';
         cadena = cadena + '<div class="col">';
         cadena = cadena + '<button id="btnAU" class="btn btn-primary mb-2 mr-sm-2">Iniciar sesión</button>';
-        //cambio para passport.js
-        cadena=cadena+'<a href="/auth/google" class="btn btn-primary mb-2 mr-sm-2">Accede con Google</a>';
-        cadena = cadena + '</div></div>'; 
+        cadena = cadena + '</div></div>'; //' </form>';
         cadena = cadena + '<div id="nota"></div></div></div>';
 
         $("#agregarUsuario").append(cadena); 
@@ -40,7 +40,6 @@ function ControlWeb() {
                 $("#aviso").remove();
                 rest.agregarUsuario(nick);
             }
-
         })
     }
 
@@ -53,7 +52,7 @@ function ControlWeb() {
 
         let cadena = '<div class="row" id="mH">';
         cadena = cadena + '<div class="col" ><h2>Batalla Naval</h2></div>';
-        cadena = cadena + "<div><h3> HOLA " + rest.nick + "     "+"</h3></div>"
+        cadena = cadena + "<div><h3> Bienvenido " + rest.nick + "     "+"</h3></div>"
         cadena = cadena + '<div style="margin-bottom:15px" id="codigo"></div>'
         cadena = cadena + '<button id="btnS" class="btn btn-primary mb-2 mr-sm-2">Salir</button>';
         cadena = cadena + '</div>'
@@ -69,7 +68,6 @@ function ControlWeb() {
             $('#gc').remove();
 			rest.usuarioSale();
         })
-
     }
 
 
@@ -92,18 +90,11 @@ function ControlWeb() {
             $('#mLP').remove();
             cws.crearPartida();
         })
-
-
-
-        
-
-
-
-
     }
+
+
     
     this.mostrarAbandonarPartida = function(){
-
         $('#mAbP').remove();
 
         let cadena = '<div class="row" id="mAbP">';
@@ -119,6 +110,8 @@ function ControlWeb() {
             cws.abandonarPartida();
         })
     }
+
+
 
     this.mostrarCodigo = function (codigo) {
         let cadena = " Codigo de la partida: " + codigo;
@@ -139,8 +132,9 @@ function ControlWeb() {
         cadena = cadena + "</ul>";
         cadena = cadena + "</div>"
         $('#listaPartidas').append(cadena);
-
     }
+
+
 
     this.mostrarListaDePartidasDisponibles = function (lista) {
         $('#mLP').remove();
@@ -172,6 +166,8 @@ function ControlWeb() {
         });
     }
 
+
+
     this.finalPartida = function(){
 		$('#mH').remove()
         cws.codigo = undefined;
@@ -190,4 +186,4 @@ function ControlWeb() {
     }
 
 
-}
+}//FIN CONTROL WEB

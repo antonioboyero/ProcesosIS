@@ -1,48 +1,58 @@
 function ClienteWS() {
+
     this.socket;
+    // this.codigo;
+
 
     this.conectar = function () {
         this.socket = io();
         this.servidorWS();
     }
 
+
     this.crearPartida = function () {
         this.socket.emit("crearPartida", rest.nick);
     }
+
+
+    this.unirseAPartida = function (codigo) {
+        this.socket.emit("unirseAPartida", rest.nick, codigo);
+    }
+
+
+    this.abandonarPartida = function () {
+        this.socket.emit("abandonarPartida", rest.nick, cws.codigo);
+    }
+
 
     this.usuarioSale = function (nick, codigo) {
         this.socket.emit("usuarioSale", rest.nick, codigo)
     }
 
-    this.unirseAPartida = function (codigo) {
-        this.socket.emit("unirseAPartida", rest.nick, codigo);
-    }
-    this.abandonarPartida = function () {
-        this.socket.emit("abandonarPartida", rest.nick, cws.codigo);
-    }
 
     this.colocarBarco = function (nombre, x, y) {
         this.socket.emit("colocarBarco", rest.nick, nombre, x, y)
     }
+
+
     this.barcosDesplegados = function () {
         this.socket.emit("barcosDesplegados", rest.nick)
     }
+
+
     this.disparar = function (x, y) {
         this.socket.emit("disparar", rest.nick, x, y)
     }
 
-
-
+    //servidorWS
     this.servidorWS = function () {
         let cli = this;
-
         this.socket.on("partidaCreada", function (data) {
             console.log(data);
             if (data.codigo != -1) {
                 console.log("Partida creada por " + rest.nick + " con codigo " + data.codigo);
                 iu.mostrarCodigo(data.codigo);
                 cli.codigo = data.codigo;
-
             }
             else {
                 console.log("No se ha podido crear la partida");
@@ -50,8 +60,8 @@ function ClienteWS() {
                 iu.mostrarCrearPartida();
                 rest.comprobarUsuario();
             }
-
         });
+
 
         this.socket.on("unidoAPartida", function (data) {
             if (data.codigo != -1) {
@@ -65,11 +75,13 @@ function ClienteWS() {
             }
         });
 
+
         this.socket.on("actualizarListaPartidas", function (lista) {
             if (!cli.codigo) {
                 iu.mostrarListaDePartidasDisponibles(lista);
             }
         });
+
 
         this.socket.on("partidaAbandonada", function (data) {
             if (data.codigo != -1) {
@@ -83,10 +95,12 @@ function ClienteWS() {
             }
         });
 
+
         this.socket.on("partidaCancelada", function (res) {
             iu.mostrarModal("Has terminado la partida " + res.codigoP + " antes de que se uniese alguien")
             iu.mostrarHome()
         });
+
 
         this.socket.on("usuarioSalido", function (res) {
 
@@ -97,14 +111,13 @@ function ClienteWS() {
             else {
                 iu.mostrarModal("Te has salido a mitad de partida")
             }
-
         })
-
 
 
         this.socket.on("aJugar", function () {
             iu.mostrarModal("¡Que empieze la partidaa!");
         });
+
 
         this.socket.on("barcoColocado", function (data) {
             console.log(data.colocado.desplegado)
@@ -119,6 +132,7 @@ function ClienteWS() {
             }
         })
 
+
         this.socket.on("disparo", function (res) {
             console.log(res.impacto)
             if (res.atacante == rest.nick) {
@@ -129,13 +143,16 @@ function ClienteWS() {
             }
         });
 
+
         this.socket.on("partidaTerminada", function () {
             iu.mostrarModal("La partida ha terminado");
         });
 
+
         this.socket.on("noEsTuTurno", function (data) {
             iu.mostrarModal("No puedes disparar no es tu turno");
         });
+
 
         this.socket.on("faseDesplegando", function (data) {
             tablero.flota = data.flota;
@@ -144,13 +161,11 @@ function ClienteWS() {
             console.log("Ya puedes desplegar la flota");
         });
 
+
         this.socket.on("finalPartida", function (res) {
             iu.mostrarModal('Victoriaa! ' + res + ' ha ganado la partida!!');
             iu.finalPartida();
         });
+    }//final metodo servidorWs
 
-
-    }
-
-
-}
+}//final clase

@@ -1,5 +1,8 @@
 function ClienteRest() {
+
+
     this.nick;
+
 
     this.agregarUsuario = function (nick) {
         var cli = this;
@@ -11,18 +14,15 @@ function ClienteRest() {
                 $.cookie("nick", data.nick);
                 cws.conectar();
                 iu.mostrarHome();
-
-
-
             }
             else {
                 console.log("No se ha podido registrar el usuario")
                 iu.mostrarModal("El nick ya está en uso");
                 iu.mostrarAgregarUsuario();
-
             }
-        })
+        });
     }
+
 
     this.comprobarUsuario = function () {
         let cli = this;
@@ -35,10 +35,10 @@ function ClienteRest() {
             else {
                 console.log("No se ha podido registrar el usuario")
                 iu.mostrarAgregarUsuario();
-
             }
         });
     }
+
 
     this.crearPartida = function () {
         let cli = this;
@@ -53,11 +53,9 @@ function ClienteRest() {
             else {
                 console.log("No se ha podido crear la partida")
             }
-
         })
-
-
     }
+
 
     this.unirseAPartida = function (codigo) {
         let cli = this;
@@ -72,14 +70,13 @@ function ClienteRest() {
         });
     }
 
+
     this.obtenerListaPartidas = function () {
         let cli = this;
         $.getJSON("/obtenerPartidas", function (lista) {
             console.log(lista);
             iu.mostrarListaPartidas(lista);
-
-        })
-
+        });
     }
 
 
@@ -91,6 +88,7 @@ function ClienteRest() {
         });
     }
 
+
     this.usuarioSale = function () {
         let nick = this.nick;
 
@@ -98,7 +96,7 @@ function ClienteRest() {
             $.removeCookie("nick");
             iu.comprobarCookie();
             cws.usuarioSale(nick, data.codigo);
-        })
+        });
     }
 
-}
+}//FINAL CLASE

@@ -1,7 +1,8 @@
 function ServidorWS() {
 
 
-    this.enviarAlRemitente = function (socket, mensaje, datos) {  
+    //enviar peticiones
+    this.enviarAlRemitente = function (socket, mensaje, datos) {
         socket.emit(mensaje, datos);
     }
 
@@ -14,16 +15,13 @@ function ServidorWS() {
     }
 
 
-
-
-
-
-
     //gestionar peticiones
     this.lanzarServidorWS = function (io, juego) {
         let cli = this;
         io.on('connection', (socket) => {
             console.log('Usuario conectado');
+
+            //CREAR PARTIDA
             socket.on("crearPartida", function (nick) {
                 let res = juego.jugadorCreaPartida(nick);
                 let codigoStr = res.codigo.toString();
@@ -32,6 +30,8 @@ function ServidorWS() {
                 let lista = juego.obtenerPartidasDisponibles();
                 cli.enviarATodos(socket, "actualizarListaPartidas", lista);
             });
+
+            //UNIRSE PARTIDA
             socket.on("unirseAPartida", function (nick, codigo) {
                 let codigoStr = codigo.toString();
                 socket.join(codigoStr);
@@ -48,6 +48,7 @@ function ServidorWS() {
 
             });
 
+            //USUARIO SALE
             socket.on("usuarioSale",function(nick,codigo){
                 let lista = juego.obtenerPartidasDisponibles();
               
@@ -59,7 +60,8 @@ function ServidorWS() {
                 }
 
             })
-        
+            
+            //ABANDONAR PARTIDA
             socket.on("abandonarPartida", function (nick, codigo) {
                 let jugador = juego.obtenerUsuario(nick);
                 let partida = juego.obtenerPartida(codigo)
@@ -80,6 +82,9 @@ function ServidorWS() {
                     }
                 }
             });
+
+
+            //COLOCAR BARCO
             socket.on("colocarBarco", function (nick, nombre, x, y) {
                 let jugador = juego.obtenerUsuario(nick);
                 if (jugador) {
@@ -89,6 +94,8 @@ function ServidorWS() {
                 }
             });
 
+
+            //BARCOS DESPLEGADOS
             socket.on("barcosDesplegados", function (nick) {
                 let jugador = juego.obtenerUsuario(nick);
                 if (jugador) {
@@ -97,20 +104,19 @@ function ServidorWS() {
                     let codigoStr = partida.codigo.toString();
 
                     if (partida.esJugando()) {
-
                         cli.enviarATodosEnPartida(io, codigoStr, "aJugar", {});
-
                     }
-
                 }
             });
+
+
+            //DISPARAR
             socket.on("disparar", function (nick, x, y) {
                 let jugador = juego.obtenerUsuario(nick);
                 let res = { jugador: nick, disparoX: x, disparoY: y }
                 if (jugador) {
                     let partida = jugador.partida;
                     let turno = partida.obtenerTurno();
-                    
                     
                     if (jugador == turno) {
                         let impacto=jugador.disparar(x, y)
@@ -119,21 +125,16 @@ function ServidorWS() {
                         if (partida.esFinal()) {
                             cli.enviarATodosEnPartida(io, partida.codigo.toString(), "finalPartida", jugador.nick);
                         }
-                        
                         let res2 = { atacante: jugador.nick, impacto: impacto, x: x, y: y, turno: turno.nick }
                         cli.enviarATodosEnPartida(io, codigoStr, "disparo", res2);
                     }
-                    else{ 
+                    else {
                         cli.enviarAlRemitente(socket, "noEsTuTurno", res);
-                }
+                    }
                 }
             });
-
-           
-
         });
     }
-
 }
 
 module.exports.ServidorWS = ServidorWS;

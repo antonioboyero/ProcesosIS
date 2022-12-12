@@ -1,7 +1,9 @@
 Modelo = require("../servidor/modelo.js");
 Juego = Modelo.Juego;
 
+
 describe("El juego", function () {
+  
   var juego;
   var usr1, usr2, usr3;
   const nick1 = "pepe";
