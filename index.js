@@ -94,3 +94,6 @@ server.listen(PORT, () => {
 
 //lanzar el servidorWs
 servidorWS.lanzarServidorWS(io, juego);
+
+
+//hemos revisado el index
