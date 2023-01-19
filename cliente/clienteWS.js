@@ -97,7 +97,7 @@ function ClienteWS() {
 
 
         this.socket.on("partidaCancelada", function (res) {
-            iu.mostrarModal("Has terminado la partida " + res.codigoP + " antes de que se uniese alguien")
+            iu.mostrarModal("Partida " + res.codigoP + " terminada antes de que se uniese alguien")
             iu.mostrarHome()
         });
 
@@ -124,11 +124,11 @@ function ClienteWS() {
             if (data.colocado.desplegado) {
                 let barco = tablero.flota[data.barco];
                 tablero.puedesColocarBarco(barco, data.x, data.y);
-                iu.mostrarModal("Barco: " + data.barco + " colocado");
+                iu.mostrarModal("Colocado " + data.barco);
                 cli.barcosDesplegados();
             }
             else {
-                iu.mostrarModal("No se puede colocar barco")
+                iu.mostrarModal("No se puede colocar barco encima de otro")
             }
         })
 
@@ -163,7 +163,7 @@ function ClienteWS() {
 
 
         this.socket.on("finalPartida", function (res) {
-            iu.mostrarModal('Victoriaa! ' + res + ' ha ganado la partida!!');
+            iu.mostrarModal('¡¡¡FIN DE LA PARTIDA!!! ' + res + ' ha ganado la partida!!');
             iu.finalPartida();
         });
     }//final metodo servidorWs

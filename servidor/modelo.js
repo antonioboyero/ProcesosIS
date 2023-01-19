@@ -177,10 +177,13 @@ function Usuario(nick, juego) {
 	}
 
 
+	//CAMBIO REALIZADO EN EL MODELO PARA AÑADIR NUEVOS BARCOS
 	this.inicializarFlota = function () {
-		this.flota["Barco Pequeño (1)"] = new Barco("Barco Pequeño (1)", 1);
-		this.flota["Carguero grande (3)"] = new Barco("Carguero grande (3)", 3);
-
+		this.flota["Fragata (1)"] = new Barco("Fragata (1)", 1);
+		this.flota["Destructor (2)"] = new Barco("Destructor (2)", 2);
+		this.flota["Acorazado (3)"] = new Barco("Acorazado (3)", 3);
+		this.flota["Submarino (4)"] = new Barco("Submarino (4)", 4);
+		this.flota["Portaviones (5)"] = new Barco("Portaviones (5)", 5);
 	}
 
 

@@ -18,21 +18,37 @@ function ControlWeb() {
     this.mostrarAgregarUsuario = function () {
         
         var cadena = '<div class="row" id="mAU">';//'<form class="form-row needs-validation"  id="mAU">';
-        cadena = cadena + '<div class="col"><h2>Juego Batalla naval</h2></div>';
+        cadena = cadena + '<div class="col"><h2 style="color:blue;font-family: verdana;font-size: 300%;">Juego Hundir la flota</h2></div>';
         cadena = cadena + '<div class="row">';
         cadena = cadena + '<div class="col">'
-        cadena = cadena + '<input type="text" class="form-control mb-2 mr-sm-2" id="usr" placeholder="Introduce tu nickname (max 6 letras)" required></div>';
+        cadena = cadena + '<input type="text" class="form-control mb-2 mr-sm-2" id="usr" placeholder="Nickname" required></div>';
         cadena = cadena + '<div class="col">';
         cadena = cadena + '<button id="btnAU" class="btn btn-primary mb-2 mr-sm-2">Iniciar sesión</button>';
         cadena = cadena + '</div></div>'; //' </form>';
         cadena = cadena + '<div id="nota"></div></div></div>';
+        cadena = cadena + '<style> body {background-image: url(https://elchapuzasinformatico.com/wp-content/uploads/2019/10/Blazing-Sails.jpg);} </style>'
+        cadena = cadena + '<img src="https://elchapuzasinformatico.com/wp-content/uploads/2019/10/Blazing-Sails.jpg" alt="Trulli" width="500" height="333">'
+        cadena = cadena + '<br>'
+        cadena = cadena + '<br>'
+        cadena = cadena + '<a href="https://www.planinfantil.es/plan/hundir-la-flota/" target="_blank">Reglas del juego</a>'
+        cadena = cadena + '<br>'
+        cadena = cadena + '<br>'
+        cadena = cadena + '<a href="https://github.com/antonioboyero/ProcesosIS" target="_blank">Código del juego</a>'
+        cadena = cadena + '<br>'
+        cadena = cadena + '<br>'
+        // cadena = cadena + '<button>REGLAS DEL JUEGO</button>'
+        // cadena = cadena + '<br>'
+        // cadena = cadena + '<button onclick="window.location.href=onclick="window.location.href=/page2"">Continue</button>'
+        // cadena = cadena + '<br>'
+        // cadena = cadena + '<button onclick="window.location.href=https://www.planinfantil.es/plan/hundir-la-flota/">Continue</button>'
 
         $("#agregarUsuario").append(cadena); 
 
         $("#btnAU").on("click", function (e) {
             if ($('#usr').val() === '' || $('#usr').val().length > 6) {
                 e.preventDefault();
-                $('#nota').append('Nick inválido');
+                window.alert("El nickname debe tener entre 1 a 6 caracteres");
+                //$('#nota').append('Nick inválido');
             }
             else {
                 var nick = $('#usr').val();

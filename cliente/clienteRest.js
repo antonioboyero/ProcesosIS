@@ -9,7 +9,7 @@ function ClienteRest() {
         $.getJSON("/agregarUsuario/" + nick, function (data) {
             console.log(data);
             if (data.nick != -1) {
-                console.log("Usuario " + data.nick + " registrado")
+                console.log(" Usuario registrado con nickname: " + data.nick)
                 cli.nick = data.nick;
                 $.cookie("nick", data.nick);
                 cws.conectar();
@@ -17,7 +17,7 @@ function ClienteRest() {
             }
             else {
                 console.log("No se ha podido registrar el usuario")
-                iu.mostrarModal("El nick ya está en uso");
+                iu.mostrarModal("¡¡¡El nick ya está siendo usado, por favor introduce otro diferente!!!"); //pantalla de error en el nick
                 iu.mostrarAgregarUsuario();
             }
         });
