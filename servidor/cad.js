@@ -28,8 +28,8 @@ function Cad() {
     }
 
 
-    this.obtenerTodos = function(coleccion, callback){
-        coleccion.find().toArray(function(error, col){
+    this.obtenerTodos = function (coleccion, callback) {
+        coleccion.find().toArray(function (error, col) {
             callback(col);
         })
     }
@@ -50,17 +50,18 @@ function Cad() {
 
     this.conectar = function () {
         let cad = this;
-        mongo.connect("mongodb+srv://batalla:clavebatalla@cluster0.9e2xf74.mongodb.net/?retryWrites=true&w=majority", { useUnifiedTopology: true }, function (err, database) {
+        mongo.connect("mongodb+srv://antonioboyero:clavebatalla@cluster0.rm1g9cf.mongodb.net/?retryWrites=true&w=majority", { useUnifiedTopology: true }, function (err, database) {
             if (!err) {
                 //Poner mi nombre en vez de batalla
                 console.log("Conectado a MongoDB Atlas")
-                database.db("batalla").collection("logs", function (err, col) { });
-                if (err) {
-                    console.log("No se puede conectar")
-                } else {
-                    console.log("Tenemos la coleccion de logs")
-                    cad.log = col;
-                }
+                database.db("batalla").collection("logs", function (err, col) {
+                    if (err) {
+                        console.log("No se puede conectar")
+                    } else {
+                        console.log("Tenemos la coleccion de logs")
+                        cad.logs = col;
+                    }
+                });
             } else {
                 console.log("No se puede conectar con MongoDB Atlas")
             }
