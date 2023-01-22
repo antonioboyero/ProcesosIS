@@ -1,8 +1,6 @@
 function ClienteWS() {
 
     this.socket;
-    // this.codigo;
-
 
     this.conectar = function () {
         this.socket = io();
@@ -67,6 +65,7 @@ function ClienteWS() {
             if (data.codigo != -1) {
                 console.log("Usuario " + rest.nick + " se une a partida codigo: " + data.codigo);
                 iu.mostrarCodigo(data.codigo);
+                iu.mostrarModal("¡¡¡¡¡A jugar!!!!!")
                 cli.codigo = data.codigo;
             }
             else {
@@ -97,7 +96,7 @@ function ClienteWS() {
 
 
         this.socket.on("partidaCancelada", function (res) {
-            iu.mostrarModal("Partida " + res.codigoP + " terminada antes de que se uniese alguien")
+            iu.mostrarModal("Partida con código: " + res.codigoP + " ha sido terminada antes de que se uniese alguien")
             iu.mostrarHome()
         });
 
@@ -115,7 +114,7 @@ function ClienteWS() {
 
 
         this.socket.on("aJugar", function () {
-            iu.mostrarModal("¡Que empieze la partidaa!");
+            iu.mostrarModal("¡¡¡Que empieze la partida!!!");
         });
 
 
@@ -124,11 +123,11 @@ function ClienteWS() {
             if (data.colocado.desplegado) {
                 let barco = tablero.flota[data.barco];
                 tablero.puedesColocarBarco(barco, data.x, data.y);
-                iu.mostrarModal("Colocado " + data.barco);
+                iu.mostrarModal("Barco " + data.barco + " colocado" );
                 cli.barcosDesplegados();
             }
             else {
-                iu.mostrarModal("No se puede colocar barco encima de otro")
+                iu.mostrarModal("¡¡CUIDADO!! Esa acción no es posible, estás intentando colocar un barco encima de otro ")
             }
         })
 
@@ -150,7 +149,7 @@ function ClienteWS() {
 
 
         this.socket.on("noEsTuTurno", function (data) {
-            iu.mostrarModal("No puedes disparar no es tu turno");
+            iu.mostrarModal("NO ES TU TURNO");
         });
 
 
@@ -161,11 +160,19 @@ function ClienteWS() {
             console.log("Ya puedes desplegar la flota");
         });
 
-
         this.socket.on("finalPartida", function (res) {
-            iu.mostrarModal('¡¡¡FIN DE LA PARTIDA!!! ' + res + ' ha ganado la partida!!');
-            iu.finalPartida();
+            if (!(res != rest.nick)) {
+                console.log(res+"Ha ganado la partida");
+                iu.mostrarModal("¡¡¡VICTORIAA!!! " + " Enhorabuena " + rest.nick + " has ganado la partida!!   " + " Esperamos que te haya gustado el juego, te esperamos pronto")
+                iu.finalPartida();
+            }
+            else {
+                console.log(res+"Ha ganado la partida");
+                iu.mostrarModal("¡¡¡DERROTA!!!  "+res+" ha ganado la partida, sigue probando suerte " +  "Esperamos que te haya gustado el juego, te esperamos pronto")
+                iu.finalPartida();
+            }
         });
+
     }//final metodo servidorWs
 
 }//final clase

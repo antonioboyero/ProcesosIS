@@ -1,15 +1,13 @@
 function ClienteRest() {
 
-
     this.nick;
-
 
     this.agregarUsuario = function (nick) {
         var cli = this;
         $.getJSON("/agregarUsuario/" + nick, function (data) {
             console.log(data);
             if (data.nick != -1) {
-                console.log(" Usuario registrado con nickname: " + data.nick)
+                console.log(" Se acaba de registrar un usuario con el nickname: " + data.nick)
                 cli.nick = data.nick;
                 $.cookie("nick", data.nick);
                 cws.conectar();

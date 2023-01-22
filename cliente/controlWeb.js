@@ -1,11 +1,9 @@
 function ControlWeb() {
 
-
     this.comprobarCookie = function () {
         if ($.cookie('nick')) {
             rest.nick = $.cookie('nick');
             rest.comprobarUsuario();
-            // cws.conectar();
             this.mostrarHome();
         } else {
             this.mostrarAgregarUsuario();
@@ -13,12 +11,10 @@ function ControlWeb() {
 
     }
 
-
-
     this.mostrarAgregarUsuario = function () {
         
         var cadena = '<div class="row" id="mAU">';//'<form class="form-row needs-validation"  id="mAU">';
-        cadena = cadena + '<div class="col"><h2 style="color:blue;font-family: verdana;font-size: 300%;">Juego Hundir la flota</h2></div>';
+        cadena = cadena + '<div class="col"><h2 style="color:black;font-family: verdana;font-size: 300%;">HUNDIR LA FLOTA</h2></div>';
         cadena = cadena + '<div class="row">';
         cadena = cadena + '<div class="col">'
         cadena = cadena + '<input type="text" class="form-control mb-2 mr-sm-2" id="usr" placeholder="Nickname" required></div>';
@@ -27,21 +23,17 @@ function ControlWeb() {
         cadena=cadena+'<a href="/auth/google" class="btn btn-primary mb-2 mr-sm-2">Accede con Google</a>';
         cadena = cadena + '</div></div>'; //' </form>';
         cadena = cadena + '<div id="nota"></div></div></div>';
-        cadena = cadena + '<style> body {background-image: url(https://elchapuzasinformatico.com/wp-content/uploads/2019/10/Blazing-Sails.jpg);} </style>'
-        cadena = cadena + '<img src="https://elchapuzasinformatico.com/wp-content/uploads/2019/10/Blazing-Sails.jpg" alt="Trulli" width="500" height="333">'
         cadena = cadena + '<br>'
         cadena = cadena + '<br>'
-        cadena = cadena + '<a href="https://www.planinfantil.es/plan/hundir-la-flota/" target="_blank">Reglas del juego</a>'
+        cadena = cadena + '<a href="https://www.planinfantil.es/plan/hundir-la-flota/" target="_blank" h2 style="color:black">Reglas del juego</a>'
         cadena = cadena + '<br>'
         cadena = cadena + '<br>'
-        cadena = cadena + '<a href="https://github.com/antonioboyero/ProcesosIS" target="_blank">Código del juego</a>'
+        cadena = cadena + '<a href="https://github.com/antonioboyero/ProcesosIS" target="_blank" h2 style="color:black">Código del juego</a>'
         cadena = cadena + '<br>'
         cadena = cadena + '<br>'
-        // cadena = cadena + '<button>REGLAS DEL JUEGO</button>'
-        // cadena = cadena + '<br>'
-        // cadena = cadena + '<button onclick="window.location.href=onclick="window.location.href=/page2"">Continue</button>'
-        // cadena = cadena + '<br>'
-        // cadena = cadena + '<button onclick="window.location.href=https://www.planinfantil.es/plan/hundir-la-flota/">Continue</button>'
+        cadena = cadena + '<div class="col"><h2 style="color:black;font-family: verdana;font-size: 200%;">Te atreves a jugar?</h2></div>';
+        //  cadena = cadena + '<style> body {background-image: url(https://elchapuzasinformatico.com/wp-content/uploads/2019/10/Blazing-Sails.jpg);} </style>'
+        //  cadena = cadena + '<img src="https://elchapuzasinformatico.com/wp-content/uploads/2019/10/Blazing-Sails.jpg" alt="Trulli" width="1" height="600">'
 
         $("#agregarUsuario").append(cadena); 
 
@@ -49,7 +41,6 @@ function ControlWeb() {
             if ($('#usr').val() === '' || $('#usr').val().length > 6) {
                 e.preventDefault();
                 window.alert("El nickname debe tener entre 1 a 6 caracteres");
-                //$('#nota').append('Nick inválido');
             }
             else {
                 var nick = $('#usr').val();
@@ -69,7 +60,7 @@ function ControlWeb() {
 
         let cadena = '<div class="row" id="mH">';
         cadena = cadena + '<div class="col" ><h2>Batalla Naval</h2></div>';
-        cadena = cadena + "<div><h3> Bienvenido " + rest.nick + "     "+"</h3></div>"
+        cadena = cadena + "<div><h3 > Bienvenido " + rest.nick + "     "+"</h3></div>"
         cadena = cadena + '<div style="margin-bottom:15px" id="codigo"></div>'
         cadena = cadena + '<button id="btnS" class="btn btn-primary mb-2 mr-sm-2">Salir</button>';
         cadena = cadena + '</div>'
@@ -90,6 +81,7 @@ function ControlWeb() {
 
 
     this.mostrarCrearPartida = function () {
+        
         //dibujar un boton que al hacer click llame a crear partida de rest
 
         $('#mCP').remove();
